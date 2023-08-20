@@ -3,29 +3,27 @@ import bcrypt from 'bcrypt';
 import { SALT_ROUNDS } from '../constants.js';
 import { v4 as uuidv4 } from 'uuid';
 
-export const registerUser = (req, res) => {
-    const user = req.body;
+export const registerUser = async(req, res) => {
+    const {password,...user}=req.body;
     const db = fs.readFileSync('./db.json', 'utf-8');
     const parsedDb = JSON.parse(db);
-    bcrypt.hash(user.password, SALT_ROUNDS, function (err, hash) {
-        if(err){
-            res.status(500).send('Internal server error');
-        }
-        else {
-            user.password=hash;
-            user.id=uuidv4();
-            parsedDb.users.push(user);
 
-            try {
-                fs.writeFileSync('./db.json', JSON.stringify(parsedDb));
-                res.status(201).send(user);
-            } catch(e) {
-                console.error('Error:', e);
-                res.status(500).send('something went wrong');
-            }
-           
-        }
-
-
-});
+    try{
+        const hashedPassword= await bcrypt.hash(password, SALT_ROUNDS);
+        
+        const userToSave={
+            ...user,
+             password:hashedPassword,
+             id:uuidv4()
+            };
+        parsedDb.users.push(userToSave);
+       
+        fs.writeFileSync('./db.json', JSON.stringify(parsedDb));
+        
+        res.status(201).send({...user, id: userToSave.id});
+    }
+    catch(e){
+        
+        res.status(500).send('something went wrong');
+    }
 };
