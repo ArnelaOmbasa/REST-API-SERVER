@@ -1,6 +1,6 @@
 import fs from 'fs';
 import bcrypt from 'bcrypt';
-import { SALT_ROUNDS, SECRET } from '../constants.js';
+import { SALT_ROUNDS, SECRET,ROLES } from '../constants.js';
 import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 
@@ -15,7 +15,8 @@ export const registerUser = async(req, res) => {
         const userToSave={
             ...user,
              password:hashedPassword,
-             id:uuidv4()
+             id:uuidv4(),
+                role:ROLES.USER
             };
         parsedDb.users.push(userToSave);
        
@@ -36,10 +37,11 @@ export const loginUser = async(req, res) => {
     const parsedDb=JSON.parse(db);
     const user=parsedDb.users.find((user)=>user.email===email);
     const match=await bcrypt.compare(password,user.password);
+    console.log(user);
     if (match) {
         const token = jwt.sign(
             {
-                data: { id: user.id }
+                data: { id: user.id, role: user.role}
             },
             SECRET,
             { expiresIn: 60 * 60 }
@@ -56,11 +58,7 @@ export const validate = (req, res) => {
     const {token}= req.body;
     try{
         const decoded=jwt.verify(token,SECRET);
-       if(decoded){
-           res.status(200).send('Valid token');
-       } else{
-              res.status(401).send('Something went wrong');
-       }
+        res.status(200).send(decoded);
     }
     catch(e){
         res.status(401).send('Invalid token');

@@ -9,19 +9,21 @@ import {
     deleteUser
     } 
     from '../controler/user.controler.js';
+    import authMiddleware from '../middleware/auth.middleware.js';
+    import roleMiddleware from '../middleware/role.middleware.js';
 
 const router = express.Router()
 
 router
     .route('/')
-    .get(getUsers)
-    .post(createUser);
+    .get(authMiddleware,roleMiddleware,getUsers)
+    .post(authMiddleware,createUser);
 
 router
     .route('/:id')
-    .get(getUserById)
-    .put(updateUser)
-    .patch(patchUser)
-    .delete(deleteUser);
+    .get(authMiddleware,getUserById)
+    .put(authMiddleware,updateUser)
+    .patch(authMiddleware,patchUser)
+    .delete(authMiddleware,deleteUser);
 
 export default router;

@@ -48,6 +48,26 @@
 			"email": "arnela2@gmail.com",
 			"password": "$2b$10$rYTyxSfp2eiCVXBfJXdRGe..Qq/dRABuiEVfobBcaRGzxQqKC4BKG",
 			"id": "4d5733a6-e11b-4fe8-be84-75cd83041673"
+		},
+		{
+			"name": "merimaa",
+			"email": "merima@gmail.com",
+			"password": "$2b$10$guGJJ9M7WLq/1kXViaZXIunclHntw10Np.gZvtA3bSnmsYh/A6EC2",
+			"id": "9ad63dfc-3c49-4110-9b97-47e94653a811"
+		},
+		{
+			"name": "Ajdin",
+			"email": "ajdin@gmail.com",
+			"password": "$2b$10$qgIondrtk5pxWABn9Wiul.Pd.K/xWZ17sy8A.0j59o4/1J773MiTi",
+			"id": "add3713d-9968-4dd7-a632-9a4b1bd1ca00",
+			"role": "user"
+		},
+		{
+			"name": "ajdo",
+			"email": "ajdin@gmail.com",
+			"password": "$2b$10$8A0Vm2ttYetpJzi.TmK6DO16mVPzBLEYo5qEG4eXZJ6jlWKfR20y2",
+			"id": "fc11e8f2-9be5-4043-8bd1-2f58fe26f540",
+			"role": "user"
 		}
 	]
 }
